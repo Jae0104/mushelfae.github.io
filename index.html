@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mushelfae's Library</title>
+<meta name="description" content="Jeux par Mushelfae et collaborateurs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!--
+=====================================================================
+  HOW TO EDIT THIS SITE
+=====================================================================
+  1. Scroll down to the <script> section. Everything you need to change
+    is inside the two blocks marked "EDIT HERE": SITE and GAMES.
+  2. Put your images and videos in an "assets" folder next to this file,
+    for example:   assets/game-1/cover.jpg
+                    assets/game-1/trailer.mp4
+  3. Point to them in the GAMES list. Missing files simply show a
+    coloured placeholder, so the site never looks broken.
+  4. Upload the whole folder (index.html + assets) to any static host:
+    itch.io, GitHub Pages, Netlify, Cloudflare Pages, etc.
+=====================================================================
+-->
+
+<style>
+  :root{
+    --bg:#0d0e11;
+    --bg-soft:#14161a;
+    --text:#ece8e1;
+    --muted:#9a968f;
+    --line:rgba(255,255,255,.09);
+    --serif:"Cormorant Garamond", Georgia, serif;
+    --sans:"Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --max:1180px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.65;-webkit-font-smoothing:antialiased}
+  img,video{display:block;max-width:100%}
+  a{color:inherit}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
+
+  /* ---------- Nav ---------- */
+  nav{position:fixed;inset:0 0 auto 0;z-index:50;padding:20px 0;transition:background .3s, padding .3s}
+  nav.solid{background:rgba(13,14,17,.88);backdrop-filter:blur(10px);padding:14px 0;border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px}
+  .logo{font-family:var(--serif);font-size:1.6rem;font-weight:600;letter-spacing:.02em;text-decoration:none}
+  .links{display:flex;gap:28px;list-style:none}
+  .links a{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;color:var(--muted);transition:color .2s}
+  .links a:hover{color:var(--text)}
+  .burger{display:none;background:none;border:0;color:var(--text);font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;cursor:pointer}
+
+  /* ---------- Hero ---------- */
+  .hero{position:relative;min-height:100vh;display:flex;align-items:flex-end;overflow:hidden;
+        background:radial-gradient(120% 90% at 20% 10%, #2b2f3a 0%, #14161c 55%, #0d0e11 100%)}
+  .hero .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 4%,rgba(13,14,17,.35) 55%,rgba(13,14,17,.55) 100%)}
+  .hero .wrap{position:relative;z-index:2;padding-bottom:12vh;width:100%}
+  .hero h1{font-family:var(--serif);font-weight:600;font-size:clamp(3rem,9vw,7.5rem);line-height:.95;letter-spacing:-.01em;max-width:12ch}
+  .hero p{margin-top:22px;max-width:46ch;color:#cfcac2;font-size:1.1rem}
+  .cue{margin-top:40px;display:inline-block;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);text-decoration:none}
+  .cue::after{content:"  ↓"}
+
+  /* ---------- Section headings ---------- */
+  section{padding:110px 0}
+  .eyebrow{font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+  h2{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,4vw,3.2rem);line-height:1.1}
+
+  /* ---------- Games grid ---------- */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px;margin-top:48px}
+  .card{position:relative;display:block;aspect-ratio:3/4;overflow:hidden;border-radius:4px;text-decoration:none;
+        background:linear-gradient(160deg,var(--accent),#101114);}
+  .card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+  .card:hover img{transform:scale(1.05)}
+  .card::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75),transparent 55%)}
+  .card .meta{position:absolute;left:18px;right:18px;bottom:16px;z-index:2}
+  .card h3{font-family:var(--serif);font-size:1.55rem;font-weight:600;line-height:1.1}
+  .card span{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:#d6d1c8}
+
+  /* ---------- Game sections ---------- */
+  .game{padding:0 0 110px}
+  .banner{position:relative;min-height:78vh;display:flex;align-items:flex-end;overflow:hidden;
+          background:radial-gradient(110% 100% at 30% 0%, var(--accent), #101114 85%)}
+  .banner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .banner::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 2%,rgba(13,14,17,.15) 60%,rgba(13,14,17,.35))}
+  .banner .wrap{position:relative;z-index:2;padding-bottom:56px;width:100%}
+  .banner h2{font-size:clamp(2.8rem,7vw,5.8rem);line-height:.98}
+  .tagline{margin-top:14px;font-size:1.15rem;color:#d6d1c8;max-width:52ch}
+  .buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+  .btn{display:inline-block;padding:13px 26px;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
+      border:1px solid var(--accent);border-radius:2px;transition:background .25s,color .25s}
+  .btn.primary{background:var(--accent);color:#0d0e11;font-weight:600}
+  .btn:hover{background:var(--text);border-color:var(--text);color:#0d0e11}
+
+  .about-game{display:grid;grid-template-columns:1.6fr 1fr;gap:64px;padding-top:56px}
+  .about-game .desc p{color:#cfcac2;font-size:1.06rem;margin-bottom:1.1em;max-width:62ch}
+  .facts{list-style:none;border-top:1px solid var(--line);align-self:start}
+  .facts li{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);font-size:.92rem}
+  .facts b{font-weight:500;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-size:.7rem;padding-top:3px}
+
+  .media{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:56px}
+  .tile{position:relative;aspect-ratio:16/9;overflow:hidden;border-radius:3px;cursor:pointer;border:0;padding:0;
+        background:linear-gradient(135deg,var(--accent),#17191e);}
+  .tile:first-child{grid-column:span 2;grid-row:span 2}
+  .tile img,.tile video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+  .tile:hover img,.tile:hover video{transform:scale(1.04)}
+  .tile .play{position:absolute;inset:0;display:grid;place-items:center;z-index:2;pointer-events:none}
+  .tile .play i{width:64px;height:64px;border-radius:50%;background:rgba(13,14,17,.65);border:1px solid rgba(255,255,255,.5);display:grid;place-items:center;backdrop-filter:blur(4px)}
+  .tile .play i::before{content:"";margin-left:4px;border-left:15px solid #fff;border-top:9px solid transparent;border-bottom:9px solid transparent}
+
+  /* ---------- Credits ---------- */
+  .credits{margin-top:72px;padding-top:40px;border-top:1px solid var(--line)}
+  .credits h3{font-family:var(--serif);font-weight:600;font-size:1.9rem;line-height:1.1;margin-bottom:28px}
+  .credit-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:26px 40px}
+  .credit-list div{border-left:2px solid var(--accent);padding-left:14px}
+  .credit-list dt{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+  .credit-list dd{font-family:var(--serif);font-size:1.3rem;line-height:1.25}
+  .credit-list dd a{text-decoration:none;border-bottom:1px solid var(--line)}
+  .credit-list dd a:hover{border-color:var(--accent)}
+  .credit-note{margin-top:30px;max-width:62ch;color:var(--muted);font-size:.92rem}
+
+  /* ---------- About / contact ---------- */
+  .about{background:var(--bg-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .about .cols{display:grid;grid-template-columns:1fr 1fr;gap:72px;margin-top:8px}
+  .about p{color:#cfcac2;font-size:1.06rem;margin-bottom:1.1em}
+  .contact a{display:block;font-family:var(--serif);font-size:1.8rem;text-decoration:none;border-bottom:1px solid var(--line);padding:10px 0;transition:padding .25s}
+  .contact a:hover{padding-left:10px}
+  footer{padding:44px 0;color:var(--muted);font-size:.82rem}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+  /* ---------- Lightbox ---------- */
+  dialog{border:0;background:transparent;max-width:min(1200px,94vw);width:100%;margin:auto;color:#fff;overflow:visible}
+  dialog::backdrop{background:rgba(5,6,8,.92)}
+  dialog .stage{aspect-ratio:16/9;width:100%;background:#000;display:grid;place-items:center}
+  dialog .stage img,dialog .stage video{width:100%;height:100%;object-fit:contain}
+  dialog .stage iframe{width:100%;height:100%;border:0}
+  dialog .bar{display:flex;justify-content:space-between;margin-top:14px;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase}
+  dialog button{background:none;border:0;color:#fff;cursor:pointer;font:inherit;letter-spacing:inherit;text-transform:inherit;padding:6px 10px}
+  dialog button:hover{color:var(--muted)}
+
+  /* ---------- Reveal ---------- */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .9s ease,transform .9s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+
+  /* ---------- Mobile ---------- */
+  @media (max-width:820px){
+    section{padding:80px 0}
+    .about-game,.about .cols{grid-template-columns:1fr;gap:36px}
+    .media{grid-template-columns:1fr 1fr}
+    .tile:first-child{grid-column:span 2;grid-row:auto}
+    .burger{display:block}
+    .links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;background:rgba(13,14,17,.97);padding:10px 28px 20px;border-bottom:1px solid var(--line)}
+    .links.open{display:flex}
+    .links li a{display:block;padding:12px 0}
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" id="logo"></a>
+    <button class="burger" id="burger" aria-label="Menu">Menu</button>
+    <ul class="links" id="links"></ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <!-- hero image/video is set from SITE.heroImage below -->
+  <div class="wrap">
+    <h1 id="heroTitle"></h1>
+    <p id="heroTagline"></p>
+    <a class="cue" href="#games">Les jeux</a>
+  </div>
+</header>
+
+<section id="games">
+  <div class="wrap">
+    <div class="eyebrow">Les jeux</div>
+    <h2>Choisissez un jeu à découvrir.</h2>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<main id="gameSections"></main>
+
+<section class="about" id="about">
+  <div class="wrap">
+    <div class="eyebrow">À propos</div>
+    <div class="cols">
+      <div>
+        <h2 id="aboutTitle"></h2>
+        <div id="aboutText" style="margin-top:24px"></div>
+      </div>
+      <div class="contact" id="contact"></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span id="copy"></span>
+    <span>Faits dans un context personnel pour le plaisir et le partage.</span>
+  </div>
+</footer>
+
+<dialog id="lightbox">
+  <div class="stage" id="stage"></div>
+  <div class="bar"><span id="caption"></span><button id="close">Fermer ✕</button></div>
+</dialog>
+
+<script>
+/* =====================================================================
+  EDIT HERE (1/2): YOUR STUDIO
+   ===================================================================== */
+const SITE = {
+  name: "Mushelfae's Library",
+  tagline: "Jeux par Mushelfae et collaborateurs.",
+  heroImage: "assets/hero.jpg",          // wide image, ~2400px. Leave "" for a plain gradient.
+  aboutTitle: "Faits par Mushelfae et collaborateurs.",
+  about: [
+    "Je suis une grande passionnée de jeux vidéos, je souhaite non seulement les expérimenter, mais les créer et les partager.",
+    "Le travail d'équipe est essentiel pour créer des jeux mémorables."
+  ],
+  email: "...@gmail.com",  // optionel
+  socials: [
+    { label: "LinkedIn",  url: "https://www.linkedin.com/in/jasmine-edwards-b22b711b5/" }
+    /*
+    { label: "YouTube",  url: "https://youtube.com/" },
+    { label: "itch.io",  url: "https://itch.io/" }
+     */
+  ]
+};
+
+/* =====================================================================
+  EDIT HERE (2/2): YOUR GAMES  (copy one block to add a game, delete one to remove it)
+
+  MEDIA TYPES  (the first item is shown large)
+    { type:"image",   src:"assets/game-1/shot-1.jpg", caption:"Optional caption" }
+    { type:"video",   src:"assets/game-1/trailer.mp4", poster:"assets/game-1/trailer.jpg" }
+    { type:"youtube", id:"VIDEO_ID_FROM_THE_URL" }
+    { type:"vimeo",   id:"VIDEO_ID_FROM_THE_URL" }
+
+  CREDITS  (shown at the bottom of each game; leave out "credits" to hide the section)
+    credits: [
+      { role:"Design & Code", name:"Your Name" },
+       { role:"Music",         name:"Composer Name", url:"https://their-site.com" }   // url is optional
+    ],
+     creditsNote: "Special thanks to ..."     // optional line under the credits
+
+  accent = the colour that tints that game's section and buttons.
+   ===================================================================== */
+const GAMES = [
+  {
+    id: "minotaur-labyrinth",
+    title: "Minotaur Labyrinth",
+    tagline: "Un homme perdu dans un labyrinthe, doit trouver la clé et s'échapper, mais il n'est pas seul.",
+    description: [
+      "Un jeu simple et amusant, créé pour le projet final de notre première session en jeu vidéo.",
+      "Ce projet nous a permis de découvrir les bases de la création de jeux vidéo, dont l'utilisation d'assets, l'intégration de la musique et effets sonores, implémentation d'un IA pour notre ennemi, et bien plus."
+    ],
+    context: "Pédagogique",
+    outil: "UNITY",
+    genre: "Horreur",
+    année: "2026",
+    accent: "#d98b5f",
+    cover:  "assets/game-1/minotaurGame_cover.png",    // portrait-ish image for the grid card (3:4)
+    banner: "assets/game-1/minotaurGame_background.png",   // wide image behind the title (16:9 or wider)
+    media: [
+      { type: "video", src: "assets/game-1/minotaurGame_trailer.mp4", poster: "assets/game-1/minotaurGame_background.png" },
+      { type: "image", src: "assets/game-1/minotaurGame_shot-1.png", caption: "Screenshot 1" },
+      { type: "image", src: "assets/game-1/minotaurGame_shot-2.png", caption: "Screenshot 2" }
+    ],
+    credits: [
+      { role: "Design & Programmation", name: "Jasmine Edwards | Antoine Desjardins | Zachary Aubin" },
+      { role: "Art",                   name: "UNITY Asset Store" },
+      { role: "Musique & Son",         name: "Youtube Audio Library" },
+      { role: "Playtesting",           name: "Nous mêmes" }
+    ],
+  },
+  {
+    id: "a-travers-les-saisons",
+    title: "À Travers les Saisons",
+    tagline: "Une petite fourmi doit traverser les saisons en récoltant des provisions pour survivre un hiver qui n'amène pas que de la neige.",
+    description: ["Un jeu toujours en développement, où l'on expérimente avec le monde 2D des plateformes et de la physique.",
+      "Ce jeu sera présenté dans le cadre d'un projet de session à l'EXPO INFO 2026 de Lionel Groulx."
+    ],
+    context: "Pédagogique",
+    outil: "UNITY",
+    genre: "Plateformer",
+    année: "2026",
+    accent: "#6fa8a0",
+    cover:  "assets/game-2/atlsGame_cover.png",
+    banner: "assets/game-2/atlsGame_background.png",
+    media: [
+      { type: "video", src: "assets/game-2/atlsGame_trailer.mp4", poster: "assets/game-2/atlsGame_background.png" },
+      { type: "image", src: "assets/game-2/atlsGame_shot-1.png", caption: "Screenshot 1" },
+      { type: "image", src: "assets/game-2/atlsGame_shot-2.png", caption: "Screenshot 2" }
+    ],
+    credits: [
+      { role: "Design & Programmation", name: "Jasmine Edwards | Antoine Desjardins | Anya Muenchow" },
+      { role: "Art",                   name: "Augusto Stolzing Sanchez" },
+      { role: "Musique & Son",         name: "Stardew Valley Soundtrack" }
+    ]
+  },
+  {
+    id: "war-star-2089",
+    title: "War Star 2089",
+    tagline: "Un humble petit vaisseu spatial doit vaincre un ennemi redoutable.",
+    description: ["Découverte du changement de scène, de la physique 2D et l'utilisation de coroutines pour obtenir un ennemi unique et imprévisible."],
+    context: "Pédagogique",
+    outil: "UNITY",
+    genre: "Space Shooter",
+    année: "2025",
+    accent: "#a58fd6",
+    cover:  "assets/game-3/warstar2089Game_cover.png",
+    banner: "assets/game-3/warstar2089Game_background.png",
+    media: [
+      { type: "video", src: "assets/game-3/warstar2089Game_trailer.mp4", poster: "assets/game-3/warstar2089Game_background.png" },
+      { type: "image", src: "assets/game-3/warstar2089Game_shot-1.png", caption: "Screenshot 1" },
+      { type: "image", src: "assets/game-3/warstar2089Game_shot-2.png", caption: "Screenshot 2" }
+    ],
+    credits: [
+      { role: "Design & Programmation", name: "Jasmine Edwards | Antoine Desjardins" },
+      { role: "Art",                   name: "UNITY Asset Store" },
+      { role: "Musique & Son",         name: "Youtube Audio Library" }
+    ]
+  },
+  {
+    id: "sans-nom",
+    title: "Sans nom pour l'instant",
+    tagline: "Le joueur principal doit s'associer à un signe astrologique, chacun ayant ses propres caractéristiques, et avancer dans un monde inconnu.",
+    description: ["Rogue-like en développement, où l'on expérimente avec la génération procédurale et les mécaniques de combat."],
+    context: "Personnel",
+    outil: "UNITY",
+    genre: "Rogue-like",
+    année: "2026",
+    accent: "#d4b25a",
+    cover:  "assets/game-4/sansnomGame_cover.png",
+    banner: "assets/game-4/sansnomGame_background.png",
+    media: [
+      { type: "video", src: "assets/game-4/sansnomGame_trailer.mp4", poster: "assets/game-4/sansnomGame_background.png" },
+      { type: "image", src: "assets/game-4/sansnomGame_shot-1.png", caption: "Screenshot 1" },
+      { type: "image", src: "assets/game-4/sansnomGame_shot-2.png", caption: "Screenshot 2" }
+    ],
+    credits: [
+      { role: "Design & Programmation", name: "Jasmine Edwards" },
+      { role: "Art",                   name: "Augusto Stolzing Sanchez" },
+    ]
+  }
+  /* Add a fifth game by copying one block above (don't forget the comma between blocks). */
+];
+
+/* =====================================================================
+  Everything below builds the page. You shouldn't need to touch it.
+   ===================================================================== */
+const $ = (s, el = document) => el.querySelector(s);
+const paras = v => (Array.isArray(v) ? v : [v]).filter(Boolean).map(t => `<p>${t}</p>`).join("");
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const imgTag = (src, alt = "") => src ? `<img src="${esc(src)}" alt="${esc(alt)}" loading="lazy" onerror="this.remove()">` : "";
+
+/* Site-level text */
+document.title = SITE.name;
+$("#logo").textContent = SITE.name;
+$("#heroTitle").textContent = SITE.name;
+$("#heroTagline").textContent = SITE.tagline;
+$("#aboutTitle").textContent = SITE.aboutTitle;
+$("#aboutText").innerHTML = paras(SITE.about);
+$("#copy").textContent = `© ${new Date().getFullYear()} ${SITE.name}`;
+if (SITE.heroImage) $("#top").insertAdjacentHTML("afterbegin", `<img class="bg" src="${esc(SITE.heroImage)}" alt="" onerror="this.remove()">`);
+
+/* Nav */
+$("#links").innerHTML =
+  GAMES.map(g => `<li><a href="#${esc(g.id)}">${esc(g.title)}</a></li>`).join("") +
+  `<li><a href="#about">À propos</a></li>`;
+
+/* Contact */
+$("#contact").innerHTML =
+  (SITE.email ? `<a href="mailto:${esc(SITE.email)}">${esc(SITE.email)}</a>` : "") +
+  SITE.socials.map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label)} ↗</a>`).join("");
+
+/* Game grid */
+$("#grid").innerHTML = GAMES.map(g => `
+  <a class="card reveal" href="#${esc(g.id)}" style="--accent:${esc(g.accent)}">
+    ${imgTag(g.cover, g.title)}
+    <div class="meta"><h3>${esc(g.title)}</h3><span>${esc(g.status)}</span></div>
+  </a>`).join("");
+
+/* Media helpers */
+function thumbFor(m) {
+  if (m.type === "image") return imgTag(m.src, m.caption);
+  if (m.type === "video") return m.poster ? imgTag(m.poster, m.caption)
+                                          : (m.src ? `<video src="${esc(m.src)}#t=0.5" muted preload="metadata" playsinline onerror="this.remove()"></video>` : "");
+  if (m.type === "youtube" && m.id) return imgTag(`https://img.youtube.com/vi/${m.id}/hqdefault.jpg`, m.caption);
+  return ""; // vimeo has no free thumbnail URL — add a "poster" to your item if you want one
+}
+const isVideo = m => ["video", "youtube", "vimeo"].includes(m.type);
+
+/* Game sections */
+$("#gameSections").innerHTML = GAMES.map((g, gi) => `
+  <article class="game" id="${esc(g.id)}" style="--accent:${esc(g.accent)}">
+    <div class="banner">
+      ${imgTag(g.banner, "")}
+      <div class="wrap reveal">
+        <div class="eyebrow">${esc(g.context)}</div>
+        <h2>${esc(g.title)}</h2>
+        <p class="tagline">${esc(g.tagline)}</p>
+        <div class="buttons">
+          ${(g.links || []).map(l => `<a class="btn ${l.primary ? "primary" : ""}" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("")}
+        </div>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="about-game reveal">
+        <div class="desc">${paras(g.description)}</div>
+        <ul class="facts">
+          ${g.context ? `<li><b>Context</b><span>${esc(g.context)}</span></li>` : ""}
+          ${g.outil ? `<li><b>Platforms</b><span>${esc(g.outil)}</span></li>` : ""}
+          ${g.genre ? `<li><b>Genre</b><span>${esc(g.genre)}</span></li>` : ""}
+          ${g.année ? `<li><b>Year</b><span>${esc(g.année)}</span></li>` : ""}
+        </ul>
+      </div>
+      <div class="media reveal">
+        ${(g.media || []).map((m, mi) => `
+          <button class="tile" data-g="${gi}" data-m="${mi}" aria-label="${esc(m.caption || "Open media")}">
+            ${thumbFor(m)}
+            ${isVideo(m) ? `<span class="play"><i></i></span>` : ""}
+          </button>`).join("")}
+      </div>
+      ${(g.credits && g.credits.length) || g.creditsNote ? `
+      <div class="credits reveal">
+        <h3>Crédits</h3>
+        ${(g.credits && g.credits.length) ? `<dl class="credit-list">
+          ${g.credits.map(c => `<div><dt>${esc(c.role)}</dt><dd>${c.url ? `<a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.name)}</a>` : esc(c.name)}</dd></div>`).join("")}
+        </dl>` : ""}
+        ${g.creditsNote ? `<p class="credit-note">${esc(g.creditsNote)}</p>` : ""}
+      </div>` : ""}
+    </div>
+  </article>`).join("");
+
+/* Lightbox */
+const box = $("#lightbox"), stage = $("#stage");
+function openMedia(m, title) {
+  let html = "";
+  if (m.type === "image" && m.src) html = `<img src="${esc(m.src)}" alt="${esc(m.caption || title)}">`;
+  else if (m.type === "video" && m.src) html = `<video src="${esc(m.src)}" controls autoplay playsinline></video>`;
+  else if (m.type === "youtube" && m.id) html = `<iframe src="https://www.youtube-nocookie.com/embed/${esc(m.id)}?autoplay=1&rel=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+  else if (m.type === "vimeo" && m.id) html = `<iframe src="https://player.vimeo.com/video/${esc(m.id)}?autoplay=1" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+  else html = `<p style="color:#9a968f;letter-spacing:.14em;text-transform:uppercase;font-size:.8rem">Media coming soon</p>`;
+  stage.innerHTML = html;
+  $("#caption").textContent = m.caption ? `${title} — ${m.caption}` : title;
+  box.showModal();
+}
+document.addEventListener("click", e => {
+  const t = e.target.closest(".tile");
+  if (t) { const g = GAMES[+t.dataset.g]; openMedia(g.media[+t.dataset.m], g.title); }
+  if (e.target === box) box.close();
+});
+$("#close").onclick = () => box.close();
+box.addEventListener("close", () => { stage.innerHTML = ""; }); // stops video playback
+
+/* Nav: solid on scroll, mobile menu */
+const nav = $("#nav");
+const onScroll = () => nav.classList.toggle("solid", scrollY > 40);
+addEventListener("scroll", onScroll, { passive: true }); onScroll();
+$("#burger").onclick = () => $("#links").classList.toggle("open");
+$("#links").addEventListener("click", () => $("#links").classList.remove("open"));
+
+/* Fade-in on scroll */
+const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { x.target.classList.add("in"); io.unobserve(x.target); } }), { threshold: .12 });
+document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+</script>
+</body>
+</html>
